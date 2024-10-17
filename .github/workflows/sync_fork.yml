@@ -1,0 +1,32 @@
+# .github/workflows/sync_fork.yml by milman2
+name: Sync Fork
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 매일 자정에 실행
+  workflow_dispatch:  # 수동 실행 트리거
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2 # 현재 리포지토리를 체크아웃
+
+      - name: Set up git
+        run: | # git 사용자 이름과 이메일을 설정 (커밋에 필요)
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+
+      - name: Add upstream remote # upstream 원격 추가
+        run: git remote add upstream git@github.com:azerothcore/azerothcore-wotlk.git
+
+      - name: Fetch upstream # upstream 가져오기
+        run: git fetch upstream
+
+      - name: Merge upstream changes # 변경 사항 병합
+        run: git merge upstream/master --allow-unrelated-histories
+
+      - name: Push changes # 변경 사항 push
+        run: git push origin master
