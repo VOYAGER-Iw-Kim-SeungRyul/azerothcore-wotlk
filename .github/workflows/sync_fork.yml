@@ -2,6 +2,9 @@
 name: Sync Fork
 
 on:
+  push:
+    branches:
+      - master
   schedule:
     - cron: '0 0 * * *'  # 매일 자정에 실행
   workflow_dispatch:  # 수동 실행 트리거
