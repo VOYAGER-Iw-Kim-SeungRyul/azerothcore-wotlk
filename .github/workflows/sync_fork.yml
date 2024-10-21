@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2 # 현재 리포지토리를 체크아웃
+        with:
+          ref: master
 
       - name: Set up git
         run: | # git 사용자 이름과 이메일을 설정 (커밋에 필요)
